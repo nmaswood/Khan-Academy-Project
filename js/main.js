@@ -43,7 +43,7 @@ var MY = syntaxTree.createSyntaxTree();
 syntaxTree.traverseSyntaxTree(MY);
 
 var editor = ace.edit("editor");
-editor.setTheme("ace/theme/twilight");
+editor.setTheme("ace/theme/crimson_editor");
 editor.session.setMode("ace/mode/javascript");
 
 
