@@ -32,25 +32,27 @@
 
 
 <div class="editor-container">
-    <pre id="editor">function calculateAmount(items) {
-        var amountNasrWantsToWork;
-        for (i = 0; i &lt; items.length; i++) {
-            alert("Ace Rocks " + items[i]);
+    <pre id="editor">function hello(input){
+    if(1==1){
+        for(var i = 0; i < 10; i++){
+            alert("hi");
         }
     }
+}
     </pre>
 </div>
 <div class="bottom">
     <div class="button-box">
-        <button type="button">PUSH </button>
+        <button type="button" onclick="syntaxTree.test()">PUSH </button>
     </div>
 </div>
 </body>
 
 <link rel="stylesheet" type="text/css" href="style.css">
+<script src="js/lib/esprima.js"></script>
 <script src="js/lib/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/main.js"></script>
-<script src="js/lib/esprima.js"></script>
+
 
 
 </html>
