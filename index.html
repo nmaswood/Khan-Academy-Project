@@ -33,31 +33,44 @@
 
 <div class="editor-container">
     <pre id="editor">function hello(input){
-    if(1==1){
-        for(var i = 0; i < 10; i++){
-            alert("hi");
+    if(1 ==1){
+        for(var i = 0; i< 10; i++){
+            return;
         }
     }
 }
     </pre>
 </div>
 
-<form action="">
-    WHITE LIST<br>
-    <input class="test-class" type="checkbox" onclick="domFunctions.insert('IfStatement',0)">IF<br>
-    <input class="test-class" type="checkbox" onclick="domFunctions.insert('WhileStatement',0)">WHILE<br>
-    <input class="test-class" type="checkbox" onclick="domFunctions.insert('ForStatement',0)">FOR<br>
+<div class="white-list">
+    WHITE LIST
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('IfStatement',0)">IF
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('WhileStatement',0)">WHILE
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('ForStatement',0)">FOR
     <input class="test-class" type="checkbox" onclick="domFunctions.insert('VariableDeclaration',0)">VARIABLE<br>
-</form>
+</div>
+<br>
+<div class="black-list">
+    BLACK LIST
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('IfStatement',1)" >IF
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('WhileStatement',1)">WHILE
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('ForStatement',1)">FOR
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('VariableDeclaration',1)">VARIABLE<br>
+</div>
+<br>
+<div class="structure-list">
+    STRUCTURE LIST
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('for-to-if',2)">FOR then IF
+    <input class="test-class" type="checkbox" onclick="domFunctions.insert('if-to-for',2)">IF then FOR
+</div>
 
-<form action="">
-    BLACK LIST<br>
-    <input class="test-class" type="checkbox" onclick="domFunctions.insert('IfStatement',1)" >NOT IF<br>
-    <input class="test-class" type="checkbox" onclick="domFunctions.insert('WhileStatement',1)">NOT WHILE<br>
-    <input class="test-class" type="checkbox" onclick="domFunctions.insert('ForStatement',1)">NOT FOR<br>
-    <input class="test-class" type="checkbox" onclick="domFunctions.insert('VariableDeclaration',1)" >NOT VARIABLE<br>
-</form>
 
+<p id="error"></p>
+<p id="success"> </p>
+<p id="structure"></p>
+<script>
+
+</script>
 
 </body>
 <div class="bottom">
