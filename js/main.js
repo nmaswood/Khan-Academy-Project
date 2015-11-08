@@ -189,10 +189,21 @@ domFunctions.run = function(){
 
     var listTreeObject = syntaxTree.convertTreeObjToList(emptyTreeObject);
 
+    console.log(listTreeObject);
+    console.log(domValues.whiteList);
 
+    for(var i = 0 ; i < domValues.whiteList.length; i++) {
 
+        if (!domFunctions.inList(domValues.whiteList[i], listTreeObject)) {
+            alert("white list violation");
+        }
+    }
+    for(var i = 0 ; i < domValues.blackList.length; i++) {
 
-
+        if (domFunctions.inList(domValues.blackList[i], listTreeObject)) {
+            alert("black list violation");
+        }
+    }
 
 };
 
@@ -224,3 +235,11 @@ domFunctions.deleteElement = function(element, list){
     return 0;
 };
 
+domFunctions.inList = function(element, list){
+    for(var i = 0; i < list.length; i++){
+        if(element === list[i]){
+            return true;
+        }
+    }
+    return false;
+};
