@@ -44,12 +44,10 @@ domFunctions.insert = function (str, num) {
         if (!domFunctions.deleteElement(str, domValues.whiteList)) {
             domValues.whiteList.push(str);
         }
-        console.log(domValues.whiteList);
     } else if (num === 1) {
         if (!domFunctions.deleteElement(str, domValues.blackList)) {
             domValues.blackList.push(str);
         }
-        console.log(domValues.blackList);
     } else {
         if (!domFunctions.deleteElement(str, domValues.structureList)) {
             domValues.structureList.push(str);
@@ -75,17 +73,18 @@ syntaxTree.createSyntaxObject = function () {
     };
 };
 
-syntaxTree.createSyntaxTree = function (str) {
+syntaxTree.errorCheckTree = function (str) {
 
     if (str === "") {
         domFunctions.erf("Dear User, it seems that the input is empty","error");
         return;
     }
     try {
-        return esprima.parse(str);
+        esprima.parse(str);
     }
     catch (err) {
         domFunctions.erf("Dear User, it seems that your code is unable to be run","error");
+        return;
     }
 };
 
@@ -146,7 +145,6 @@ syntaxTree.find = function (node, outer, inner) {
             if (inner == "IfStatement") {
                 domValues.forToIf = 1;
             } else {
-                console.log("SHIT");
                 domValues.ifToFor = 1;
             }
         }
@@ -162,7 +160,6 @@ syntaxTree.find = function (node, outer, inner) {
             if (inner == "IfStatement") {
                 domValues.forToIf = 1;
             } else {
-                console.log("SHIT");
                 domValues.ifToFor = 1;
             }
         }
@@ -190,12 +187,15 @@ syntaxTree.find = function (node, outer, inner) {
 
 domFunctions.run = function () {
     domValues.errorMessage = "";
-    domValues.successMessage = "";
+
     domValues.successMessage = "";
 
     var editorString = editor.getValue();
 
-    var parsedString = syntaxTree.createSyntaxTree(editorString);
+    syntaxTree.errorCheckTree(editorString);
+
+     var parsedString = esprima.parse(editorString);
+
 
     var emptyTreeObject = syntaxTree.createSyntaxObject();
 
@@ -207,8 +207,6 @@ domFunctions.run = function () {
 
         if (!domFunctions.inList(domValues.whiteList[i], listTreeObject)) {
             domValues.errorMessage += "  White List Violation";
-            console.log(domValues.errorMessage);
-
         }
     }
 
@@ -280,7 +278,7 @@ domFunctions.run = function () {
             document.getElementById("structure").innerHTML ="";
             domValues.errorMessage = "";
             domValues.successMessage = "";
-            domValues.successMessage = "";
+            domValues.structureMessage = "";
         },
         3000);
 
