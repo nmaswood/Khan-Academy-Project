@@ -1,26 +1,23 @@
 "use strict";
 
-// Editor Specifications, given current Khan Academy style theme, just sticking to Crimson Editor
-
 var editor = ace.edit("editor");
 editor.setTheme("ace/theme/crimson_editor");
 editor.session.setMode("ace/mode/javascript");
 
 var syntaxTree = {};
 
+var domValues = {};
+
+var domFunctions = {};
+
 syntaxTree.errorMessage = "";
 
 syntaxTree.createSyntaxObject = function() {
 
     var obj = {
-        "FunctionDeclaration": 0,
-        "Identifier": 0,
         "VariableDeclaration": 0,
         "ForStatement": 0,
-        "AssignmentExpression": 0,
-        "UpdateExpression": 0,
         "IfStatement": 0,
-        "ExpressionStatement": 0,
         "WhileStatement": 0
     };
     return obj;
@@ -76,7 +73,9 @@ var FOR = "ForStatement";
 
 var BOOL = [];
 
-
+syntaxTree.test = function(){
+    alert("hellow!");
+};
 
 syntaxTree.traverseSyntaxTree = function (node,obj) {
     var that = this;
@@ -158,32 +157,70 @@ syntaxTree.find = function(node, outer, inner){
     }
 };
 
+domFunctions.insert = function(str, num) {
+
+    if (num === 0) {
+        if (!domFunctions.deleteElement(str, domValues.whiteList)){
+            domValues.whiteList.push(str);
+        }
+        console.log(domValues.whiteList);
+    } else if (num === 1) {
+        if (!domFunctions.deleteElement(str, domValues.blackList)) {
+            domValues.blackList.push(str);
+        }
+        console.log(domValues.blackList);
+    } else {
+        if (!domFunctions.deleteElement(str, domValues.structureList)) {
+            domValues.structureList.push(str);
+            console.log(domValues.structureList);
+        }
+    }
+};
+
+domFunctions.run = function(){
+
+    var editorString = editor.getValue();
+
+    var parsedString = syntaxTree.createSyntaxTree(editorString);
+
+    var emptyTreeObject = syntaxTree.createSyntaxObject();
+
+    syntaxTree.traverseSyntaxTree(parsedString, emptyTreeObject);
+
+    var listTreeObject = syntaxTree.convertTreeObjToList(emptyTreeObject);
 
 
 
 
 
 
-var inputString= editor.getValue();
+};
 
 
-var TEST = esprima.parse(inputString);
+syntaxTree.convertTreeObjToList = function(obj) {
+    var returnList = [];
+    for (var key in obj) {
+        if (obj[key]){
+            returnList.push(key);
+        }
+    }
 
-var TESTING = syntaxTree.createSyntaxTree(inputString);
+    return returnList;
+};
 
-console.log(syntaxTree.find(TESTING, FOR, IF));
-
-
-
-console.log(works);
-
+domValues.whiteList = [];
+domValues.blackList = [];
+domValues.structureList = [];
 
 
-
-
-
-
-//A whitelist of specific functionality. For example, the ability to say "This program MUST use a 'for loop' and a 'variable declaration'."
-//A blacklist of specific functionality. For example, the ability to say "This program MUST NOT use a 'while loop' or an 'if statement'."
-//Determine the rough structure of the program. For example, "There should be a 'for loop' and inside of it there should be an 'if statement'."
+//IE 8 doesn't support indexOf
+domFunctions.deleteElement = function(element, list){
+    for(var i = 0; i < list.length; i++){
+        if(element === list[i]){
+            list.splice(i,1);
+            return 1;
+        }
+    }
+    return 0;
+};
 
