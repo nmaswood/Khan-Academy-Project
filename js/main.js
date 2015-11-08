@@ -57,6 +57,13 @@ domFunctions.insert = function (str, num) {
     }
 };
 
+domFunctions.erf = function(str,id){
+    document.getElementById(id).innerHTML = str;
+    setTimeout(function(){
+        document.getElementById(id).innerHTML = "";
+    }, 3000);
+};
+
 var syntaxTree = {};
 
 syntaxTree.createSyntaxObject = function () {
@@ -71,15 +78,14 @@ syntaxTree.createSyntaxObject = function () {
 syntaxTree.createSyntaxTree = function (str) {
 
     if (str === "") {
-        domValues.errorMessage = "Dear User, it seems that the input is empty";
+        domFunctions.erf("Dear User, it seems that the input is empty","error");
         return;
     }
     try {
         return esprima.parse(str);
     }
     catch (err) {
-        domValues.errorMessage = "Dear User, it seems that your code is unable to be run";
-        console.log(err);
+        domFunctions.erf("Dear User, it seems that your code is unable to be run","error");
     }
 };
 
@@ -221,7 +227,7 @@ domFunctions.run = function () {
         domValues.successMessage += "  Black List Success";
 
     }
-    
+
     var IF = "IfStatement";
     var FOR = "ForStatement";
 
