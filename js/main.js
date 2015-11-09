@@ -188,7 +188,8 @@ domFunctions.run = function () {
 
     if (domValues.errorMessage || domValues.successMessage || domValues.structureMessage) {
         return;
-    };
+    }
+    ;
 
     domValues.ifToFor = 0;
     domValues.forToIf = 0;
@@ -290,17 +291,16 @@ domFunctions.run = function () {
 domValues.toggleManualBoolean = 1;
 
 domFunctions.toggleManual = function () {
-    if(domValues.toggleManualBoolean) {
+    if (domValues.toggleManualBoolean) {
         domValues.toggleManualBoolean = 0;
-    } else{
+    } else {
         domValues.toggleManualBoolean = 1;
         domFunctions.start();
 
     }
 };
 
-domFunctions.start = function()
-{
+domFunctions.start = function () {
     var id = setInterval(function () {
         if (domValues.toggleManualBoolean) {
             domFunctions.run()

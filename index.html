@@ -54,32 +54,34 @@ function roulette(){
 
 <div class="white-list">
     WHITE LIST
-    <input  type="checkbox" onclick="domFunctions.insert('IfStatement',0)">IF
+    <input type="checkbox" onclick="domFunctions.insert('IfStatement',0)">IF
     <input type="checkbox" onclick="domFunctions.insert('WhileStatement',0)">WHILE
-    <input  type="checkbox" onclick="domFunctions.insert('ForStatement',0)">FOR
-    <input  type="checkbox" onclick="domFunctions.insert('VariableDeclaration',0)">VARIABLE<br>
+    <input type="checkbox" onclick="domFunctions.insert('ForStatement',0)">FOR
+    <input type="checkbox" onclick="domFunctions.insert('VariableDeclaration',0)">VARIABLE<br>
 </div>
 <br>
 
 <div class="black-list">
     BLACK LIST
-    <input  type="checkbox" onclick="domFunctions.insert('IfStatement',1)">IF
-    <input  type="checkbox" onclick="domFunctions.insert('WhileStatement',1)">WHILE
-    <input  type="checkbox" onclick="domFunctions.insert('ForStatement',1)">FOR
-    <input  type="checkbox" onclick="domFunctions.insert('VariableDeclaration',1)">VARIABLE<br>
+    <input type="checkbox" onclick="domFunctions.insert('IfStatement',1)">IF
+    <input type="checkbox" onclick="domFunctions.insert('WhileStatement',1)">WHILE
+    <input type="checkbox" onclick="domFunctions.insert('ForStatement',1)">FOR
+    <input type="checkbox" onclick="domFunctions.insert('VariableDeclaration',1)">VARIABLE<br>
 </div>
 <br>
 
 <div class="structure-list">
     STRUCTURE LIST
-    <input  type="checkbox" onclick="domFunctions.insert('for-to-if',2)">FOR then IF
+    <input type="checkbox" onclick="domFunctions.insert('for-to-if',2)">FOR then IF
     <input type="checkbox" onclick="domFunctions.insert('if-to-for',2)">IF then FOR
 </div>
 <br>
 
 <div class="outputs">
     <p id="error"></p>
+
     <p id="success"></p>
+
     <p id="structure"></p>
 </div>
 
@@ -88,13 +90,11 @@ function roulette(){
 <div class="bottom">
     <div class="button-box">
         <button type="button" onclick="domFunctions.run()">PUSH</button>
-
     </div>
 </div>
 <div class="option">
-Manual <input class="test-class" type="checkbox" onclick="domFunctions.toggleManual()">
+    Manual <input type="checkbox" onclick="domFunctions.toggleManual()">
 </div>
-
 
 
 <link rel="stylesheet" type="text/css" href="style.css">
@@ -104,7 +104,3 @@ Manual <input class="test-class" type="checkbox" onclick="domFunctions.toggleMan
 
 
 </html>
-
-
-<!--
--->

@@ -110,7 +110,6 @@ input{
     background: black;
     height: 50px;
     line-height: 2.5;
-
 }
 .structure-list{
     color:white;
@@ -118,13 +117,11 @@ input{
     height: 50px;
     line-height: 2.5;
     font-weight: bold;
-
 }
 
 .outputs{
     text-align: center;
     font-weight: bold;
-
 }
 .option{
     color: black;
