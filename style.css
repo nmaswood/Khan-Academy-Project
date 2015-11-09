@@ -126,6 +126,9 @@ input{
     font-weight: bold;
 
 }
+.option{
+    color: black;
+}
 #error{
     color:  #e74c3c;
 }

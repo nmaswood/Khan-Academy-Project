@@ -13,8 +13,8 @@ var domValues = {
     "forToIf": 0,
     "errorMessage": "",
     "successMessage": "",
-    "structureMessage" :""
-    };
+    "structureMessage": ""
+};
 
 var domFunctions = {};
 
@@ -55,9 +55,9 @@ domFunctions.insert = function (str, num) {
     }
 };
 
-domFunctions.erf = function(str,id){
+domFunctions.erf = function (str, id) {
     document.getElementById(id).innerHTML = str;
-    setTimeout(function(){
+    setTimeout(function () {
         document.getElementById(id).innerHTML = "";
     }, 3000);
 };
@@ -76,18 +76,23 @@ syntaxTree.createSyntaxObject = function () {
 syntaxTree.errorCheckTree = function (str) {
 
     if (str === "") {
-        domFunctions.erf("Dear User, it seems that the input is empty","error");
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("success").innerHTML = "";
+        document.getElementById("structure").innerHTML = "";
+        domFunctions.erf("Dear User, it seems that the input is empty", "error");
         return;
     }
     try {
         esprima.parse(str);
     }
     catch (err) {
-        domFunctions.erf("Dear User, it seems that your code is unable to be run","error");
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("success").innerHTML = "";
+        document.getElementById("structure").innerHTML = "";
+        domFunctions.erf("Dear User, it seems that your code is unable to be run", "error");
         return;
     }
 };
-
 
 syntaxTree.traverseSyntaxTree = function (node, obj) {
     var that = this;
@@ -131,7 +136,6 @@ syntaxTree.convertTreeObjToList = function (obj) {
     return returnList;
 };
 
-
 syntaxTree.find = function (node, outer, inner) {
 
     var that = this;
@@ -148,7 +152,6 @@ syntaxTree.find = function (node, outer, inner) {
                 domValues.ifToFor = 1;
             }
         }
-
     }
 
     if (node["type"] == outer && "consequent" in node) {
@@ -166,12 +169,9 @@ syntaxTree.find = function (node, outer, inner) {
     }
 
     for (var category in node) {
-
         if (category in node) {
-
             var leafNode = node[category];
             if (typeof leafNode === 'object' && leafNode) {
-
                 if (leafNode.constructor === Array) {
                     leafNode.forEach(function (node) {
                         that.find(node, outer, inner);
@@ -184,18 +184,20 @@ syntaxTree.find = function (node, outer, inner) {
     }
 };
 
-
 domFunctions.run = function () {
-    domValues.errorMessage = "";
 
-    domValues.successMessage = "";
+    if (domValues.errorMessage || domValues.successMessage || domValues.structureMessage) {
+        return;
+    };
+
+    domValues.ifToFor = 0;
+    domValues.forToIf = 0;
 
     var editorString = editor.getValue();
 
     syntaxTree.errorCheckTree(editorString);
 
-     var parsedString = esprima.parse(editorString);
-
+    var parsedString = esprima.parse(editorString);
 
     var emptyTreeObject = syntaxTree.createSyntaxObject();
 
@@ -203,27 +205,38 @@ domFunctions.run = function () {
 
     var listTreeObject = syntaxTree.convertTreeObjToList(emptyTreeObject);
 
-    for (var i = 0; i < domValues.whiteList.length; i++) {
+    var errorObject = {
+        "W": 0,
+        "B": 0
+    };
+    if (domValues.whiteList.length) {
+        for (var i = 0; i < domValues.whiteList.length; i++) {
 
-        if (!domFunctions.inList(domValues.whiteList[i], listTreeObject)) {
-            domValues.errorMessage += "  White List Violation";
+            if (!domFunctions.inList(domValues.whiteList[i], listTreeObject)) {
+                errorObject["W"]++;
+            }
+        }
+
+        if (domValues.whiteList.length && errorObject["W"] === 0) {
+            domValues.successMessage = "White List Success";
+        } else {
+            domValues.errorMessage = "White List Violation";
         }
     }
+    if (domValues.blackList.length) {
+        for (var i = 0; i < domValues.blackList.length; i++) {
 
-    if (domValues.whiteList.length && !domValues.errorMessage) {
-        domValues.successMessage += "  White List Success";
-    }
+            if (domFunctions.inList(domValues.blackList[i], listTreeObject)) {
+                errorObject["B"]++;
+            }
 
-    for (var i = 0; i < domValues.blackList.length; i++) {
-
-        if (domFunctions.inList(domValues.blackList[i], listTreeObject)) {
-            domValues.errorMessage += "  Black List Violation";
         }
-    }
 
-    if (domValues.blackList.length && !domValues.errorMessage) {
-        domValues.successMessage += "  Black List Success";
-
+        if (domValues.blackList.length && !errorObject["B"]) {
+            domValues.successMessage += "  Black List Success";
+        } else {
+            domValues.errorMessage += " Black List Violation";
+        }
     }
 
     var IF = "IfStatement";
@@ -236,28 +249,23 @@ domFunctions.run = function () {
     var y = domValues.forToIf;
     var z = domValues.structureList.length;
 
+    if (z) {
 
-    if(z){
-
-        if(z == 2 && x && y){
+        if (z == 2 && x && y) {
             domValues.structureMessage = "FOR then IF and If then FOR Present";
-        } else if(z == 2 && x){
+        } else if (z == 2 && x) {
             domValues.structureMessage = "IF then FOR Present and FOR then IF not present";
         }
-        else if(z == 2 && y){
+        else if (z == 2 && y) {
             domValues.structureMessage = "FOR then IF present and FOR then IF not present";
-        } else if(y && domValues.structureList[0] == 'for-to-if'){
+        } else if (y && domValues.structureList[0] == 'for-to-if') {
             domValues.structureMessage = "FOR then IF Present";
-        } else if(x && domValues.structureList[0] == 'if-to-for'){
+        } else if (x && domValues.structureList[0] == 'if-to-for') {
             domValues.structureMessage = "IF then For Present";
-        }else{
+        } else {
             domValues.structureMessage = "Structure Not Present";
         }
-
     }
-
-
-
 
     if (domValues.errorMessage) {
         document.getElementById("error").innerHTML = domValues.errorMessage;
@@ -265,25 +273,48 @@ domFunctions.run = function () {
     if (domValues.successMessage) {
         document.getElementById("success").innerHTML = domValues.successMessage;
     }
-    if(domValues.structureMessage){
+    if (domValues.structureMessage) {
         document.getElementById("structure").innerHTML = domValues.structureMessage;
     }
 
-    domValues.ifToFor = 0;
-    domValues.forToIf = 0;
-
     setTimeout(function () {
-            document.getElementById("error").innerHTML = "";
-            document.getElementById("success").innerHTML = "";
-            document.getElementById("structure").innerHTML ="";
-            domValues.errorMessage = "";
-            domValues.successMessage = "";
-            domValues.structureMessage = "";
-        },
-        3000);
-
-
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("success").innerHTML = "";
+        document.getElementById("structure").innerHTML = "";
+        domValues.errorMessage = "";
+        domValues.successMessage = "";
+        domValues.structureMessage = "";
+    }, 3000);
 };
+
+domValues.toggleManualBoolean = 1;
+
+domFunctions.toggleManual = function () {
+    if(domValues.toggleManualBoolean) {
+        domValues.toggleManualBoolean = 0;
+    } else{
+        domValues.toggleManualBoolean = 1;
+        domFunctions.start();
+        
+    }
+};
+
+domFunctions.start = function()
+{
+    var id = setInterval(function () {
+        if (domValues.toggleManualBoolean) {
+            domFunctions.run()
+        } else {
+            clearInterval(id);
+            return;
+        }
+    }, 7500);
+};
+
+domFunctions.start();
+
+
+
 
 
 
