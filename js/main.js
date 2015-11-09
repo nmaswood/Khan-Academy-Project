@@ -295,7 +295,7 @@ domFunctions.toggleManual = function () {
     } else{
         domValues.toggleManualBoolean = 1;
         domFunctions.start();
-        
+
     }
 };
 
