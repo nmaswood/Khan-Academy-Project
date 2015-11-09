@@ -79,8 +79,9 @@ syntaxTree.errorCheckTree = function (str) {
         document.getElementById("error").innerHTML = "";
         document.getElementById("success").innerHTML = "";
         document.getElementById("structure").innerHTML = "";
+        console.log("FUCK");
         domFunctions.erf("Dear User, it seems that the input is empty", "error");
-        return;
+        return 1;
     }
     try {
         esprima.parse(str);
@@ -90,7 +91,7 @@ syntaxTree.errorCheckTree = function (str) {
         document.getElementById("success").innerHTML = "";
         document.getElementById("structure").innerHTML = "";
         domFunctions.erf("Dear User, it seems that your code is unable to be run", "error");
-        return;
+        return 1;
     }
 };
 
@@ -196,7 +197,10 @@ domFunctions.run = function () {
 
     var editorString = editor.getValue();
 
-    syntaxTree.errorCheckTree(editorString);
+    if(syntaxTree.errorCheckTree(editorString)){
+        console.log("ABORT");
+        return;
+    }
 
     var parsedString = esprima.parse(editorString);
 
