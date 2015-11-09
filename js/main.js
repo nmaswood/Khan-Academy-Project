@@ -79,7 +79,6 @@ syntaxTree.errorCheckTree = function (str) {
         document.getElementById("error").innerHTML = "";
         document.getElementById("success").innerHTML = "";
         document.getElementById("structure").innerHTML = "";
-        console.log("FUCK");
         domFunctions.erf("Dear User, it seems that the input is empty", "error");
         return 1;
     }
@@ -198,7 +197,6 @@ domFunctions.run = function () {
     var editorString = editor.getValue();
 
     if(syntaxTree.errorCheckTree(editorString)){
-        console.log("ABORT");
         return;
     }
 
